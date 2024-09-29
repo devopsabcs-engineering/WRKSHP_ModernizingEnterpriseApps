@@ -70,5 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Comparisons\SqlSchemaCompareAzureToDbProject.scmp" />
+    <None Include="Schema Comparisons\SqlSchemaCompareDbProjectToOnPremiseSqlServer.scmp" />
   </ItemGroup>
 </Project>
