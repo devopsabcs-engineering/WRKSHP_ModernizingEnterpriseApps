@@ -116,14 +116,6 @@ Share details of what workshop(s) would cover and what will not be covered. If a
 
 Ensure you cover modules that are relevant to or identified for the success of VBD.
 
-**When to engage Data & AI CSAs** As we embark on era of AI, let’s understand as part of the execution how the app will be infused with AI to power innovation. Following are a set of leading questions/conversation starters and links to specific AI VBDs to help the customer on their journey. Please work with the CSAM to schedule an engagement with the Data & AI CSA.
-
-  - Is your team looking at using LLMs with applications and need better understanding of the AOAI Service?
-  - Do you want to envision some use cases for AOAI with apps that will bring faster time to value?
-
-The relevant VBD to deliver under Data & AI workload -> [Plan and Execution for Innovating Apps with Azure OpenAI](https://eng.ms/docs/microsoft-customer-partner-solutions-mcaps-core/customer-experience-and-support/customer-success/data-ai/resource-center/vbd-fy24/02-bldmdrnzaiapps/05-innovappaoai/archdesignreview)
-
-
 ### Step 5: Customer close out
 
 If needed send follow up materials / resources to the attendees. Ensure that the customer understands what the next steps are after the workshop(s). You need to understand basics of VBD and tell them what they can expect next.
@@ -140,6 +132,3 @@ If needed send follow up materials / resources to the attendees. Ensure that the
 - [Development process for Azure](https://learn.microsoft.com/dotnet/architecture/modern-web-apps-azure/development-process-for-azure)
 - [Azure hosting recommendations for ASP.NET Core web apps](https://learn.microsoft.com/dotnet/architecture/modern-web-apps-azure/azure-hosting-recommendations-for-asp-net-web-apps)
 - [Reliable web app pattern planning (.NET)](https://aka.ms/eap/rwa/dotnet/doc)
-
-### Community support
-- {Teams channel}
