@@ -1,0 +1,98 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  - none
+
+pool:
+  vmImage: "windows-latest"
+
+variables:
+  - name: solution
+    value: "**/*.sln"
+  - name: buildPlatform
+    value: "Any CPU"
+  - name: buildConfiguration
+    value: "Release"
+  - name: WebAppFQDN
+    value: "iis2022.devopsabcs.com"
+
+stages:
+  - stage: build
+    jobs:
+      - job: buildJob
+        displayName: "Build job"
+        steps:
+          - task: NuGetToolInstaller@1
+          - task: NuGetCommand@2
+            inputs:
+              restoreSolution: "$(solution)"
+          - task: VSBuild@1
+            inputs:
+              solution: "$(solution)"
+              msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+              platform: "$(buildPlatform)"
+              configuration: "$(buildConfiguration)"
+          - task: VSTest@2
+            inputs:
+              platform: "$(buildPlatform)"
+              configuration: "$(buildConfiguration)"
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: "$(build.artifactStagingDirectory)"
+              artifactName: "drop"
+              publishLocation: "Container"
+  - stage: "Deploy"
+    displayName: "Deploy the web application"
+    dependsOn: Build
+    jobs:
+      - deployment: "DeployToDev"
+        displayName: "Deploy the web application to dev environment"
+        variables:
+          Parameters.IISDeploymentType: "IISWebsite"
+          Parameters.ActionIISWebsite: "CreateOrUpdateWebsite"
+          Parameters.WebsiteName: "Default Web Site"
+          Parameters.WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\AspNetDemo'
+          Parameters.AddBinding: false
+          Parameters.VirtualPathForApplication: "/AspNetDemo"
+          Parameters.AppPoolName: "AspNetDemoPool"
+          Parameters.VirtualApplication: "AspNetDemo"
+          Parameters.Package: '$(Pipeline.Workspace)\drop\*.zip'
+          Parameters.RemoveAdditionalFilesFlag: true
+          Parameters.TakeAppOfflineFlag: true
+          Parameters.XmlTransformation: true
+          Parameters.XmlVariableSubstitution: true
+        environment:
+          name: APIM_IIS2022_Dev_VM
+          resourceType: VirtualMachine
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - task: IISWebAppManagementOnMachineGroup@0
+                  inputs:
+                    EnableIIS: true
+                    IISDeploymentType: "IISWebsite"
+                    ActionIISWebsite: "CreateOrUpdateWebsite"
+                    WebsiteName: "$(Parameters.WebsiteName)"
+                    WebsitePhysicalPath: "$(Parameters.WebsitePhysicalPath)"
+                    WebsitePhysicalPathAuth: "WebsiteUserPassThrough"
+                    CreateOrUpdateAppPoolForWebsite: true
+                    AppPoolNameForWebsite: "$(Parameters.AppPoolName)"
+                    DotNetVersionForWebsite: "v4.0"
+                    PipeLineModeForWebsite: "Integrated"
+                    AppPoolIdentityForWebsite: "ApplicationPoolIdentity"
+                - task: IISWebAppDeploymentOnMachineGroup@0
+                  displayName: "IIS Web App Deploy"
+                  inputs:
+                    WebSiteName: "$(Parameters.WebsiteName)"
+                    VirtualApplication: "$(Parameters.VirtualApplication)"
+                    Package: "$(Parameters.Package)"
+                    RemoveAdditionalFilesFlag: $(Parameters.RemoveAdditionalFilesFlag)
+                    TakeAppOfflineFlag: $(Parameters.TakeAppOfflineFlag)
+                    XmlTransformation: $(Parameters.XmlTransformation)
+                    XmlVariableSubstitution: $(Parameters.XmlVariableSubstitution)
