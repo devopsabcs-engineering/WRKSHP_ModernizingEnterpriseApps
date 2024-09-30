@@ -93,9 +93,8 @@ stages:
                       $webAppName = az deployment group show --name $(deploymentName) `
                         --resource-group $(resourceGroupName) `
                         --query properties.outputs.webAppName.value -o tsv
-                      echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
-                      echo "WebAppName: $(webAppName)"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
@@ -130,9 +129,8 @@ stages:
                       $webAppName = az deployment group show --name $(deploymentName) `
                         --resource-group $(resourceGroupName) `
                         --query properties.outputs.webAppName.value -o tsv
-                      echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
-                      echo "WebAppName: $(webAppName)"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
@@ -167,9 +165,8 @@ stages:
                       $webAppName = az deployment group show --name $(deploymentName) `
                         --resource-group $(resourceGroupName) `
                         --query properties.outputs.webAppName.value -o tsv
-                      echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
-                      echo "WebAppName: $(webAppName)"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
