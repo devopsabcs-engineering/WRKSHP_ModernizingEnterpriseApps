@@ -11,8 +11,8 @@ variables:
     value: "Release"
   - name: azureSubscription
     value: "WRKSHP_csa_sub_v2"
-  - name: webAppName
-    value: app-samplewebapp-oyqorqpnsspf4
+  #- name: webAppName
+  #  value: app-samplewebapp-oyqorqpnsspf4
   - name: resourceGroupName
     value: rg-bch-modernize-apps
   - name: deploymentName
@@ -105,6 +105,80 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "dev"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
+                    RuntimeStack: "DOTNETCORE|8.0"
+                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
+  - stage: deployStaging
+    displayName: "Deploy stage staging"
+    dependsOn: deployDev
+    jobs:
+      - deployment: DeployStaging
+        displayName: "Deploy Staging"
+        environment: "WRKSHP_myWebsite_staging"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: "get app service name"
+                  inputs:
+                    scriptType: "pscore"
+                    scriptLocation: "inlineScript"
+                    azureSubscription: $(azureSubscription)
+                    inlineScript: |
+                      echo "get app service name from deploymentName"
+                      $webAppName = az deployment group show --name $(deploymentName) `
+                        --resource-group $(resourceGroupName) `
+                        --query properties.outputs.webAppName.value -o tsv
+                      echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      echo "WebAppName: $webAppName"
+                      echo "WebAppName: $(webAppName)"
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "$(azureSubscription)"
+                    appType: "webAppLinux"
+                    WebAppName: "$(webAppName)"
+                    deployToSlotOrASE: true
+                    ResourceGroupName: "$(resourceGroupName)"
+                    SlotName: "staging"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
+                    RuntimeStack: "DOTNETCORE|8.0"
+                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
+  - stage: deployProd
+    displayName: "Deploy stage prod"
+    dependsOn: deployStaging
+    jobs:
+      - deployment: DeployProd
+        displayName: "Deploy Prod"
+        environment: "WRKSHP_myWebsite_prod"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: "get app service name"
+                  inputs:
+                    scriptType: "pscore"
+                    scriptLocation: "inlineScript"
+                    azureSubscription: $(azureSubscription)
+                    inlineScript: |
+                      echo "get app service name from deploymentName"
+                      $webAppName = az deployment group show --name $(deploymentName) `
+                        --resource-group $(resourceGroupName) `
+                        --query properties.outputs.webAppName.value -o tsv
+                      echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      echo "WebAppName: $webAppName"
+                      echo "WebAppName: $(webAppName)"
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "$(azureSubscription)"
+                    appType: "webAppLinux"
+                    WebAppName: "$(webAppName)"
+                    deployToSlotOrASE: true
+                    ResourceGroupName: "$(resourceGroupName)"
+                    SlotName: "prod"
                     packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
