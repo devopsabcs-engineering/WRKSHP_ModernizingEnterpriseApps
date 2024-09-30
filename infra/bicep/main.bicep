@@ -52,6 +52,14 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
     }
   }
 
+  resource basicPublishingCredentialsPolicies 'basicPublishingCredentialsPolicies@2023-12-01' = {
+    name: 'scm'
+    //kind: 'string'
+    properties: {
+      allow: true
+    }
+  }
+
   // add deployment slot for dev
   resource webAppSlotDev 'slots@2023-12-01' = {
     location: location
@@ -63,6 +71,14 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
       siteConfig: {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
+      }
+    }
+
+    resource basicPublishingCredentialsPoliciesDev 'basicPublishingCredentialsPolicies@2023-12-01' = {
+      name: 'scm'
+      //kind: 'string'
+      properties: {
+        allow: true
       }
     }
 
@@ -89,6 +105,14 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
       siteConfig: {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
+      }
+    }
+
+    resource basicPublishingCredentialsPoliciesStaging 'basicPublishingCredentialsPolicies@2023-12-01' = {
+      name: 'scm'
+      //kind: 'string'
+      properties: {
+        allow: true
       }
     }
 
