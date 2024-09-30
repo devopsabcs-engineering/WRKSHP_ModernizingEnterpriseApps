@@ -22,7 +22,7 @@ param sqlAdminLogin string = 'sqladmin'
 @description('Password for the SQL server admin login.')
 param sqlAdminPassword string = 'P@ssw0rd1'
 
-var connectionString = 'Server=tcp:${sqlServer.name}.${environment().suffixes.sqlServerHostname},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
 
 resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   location: location

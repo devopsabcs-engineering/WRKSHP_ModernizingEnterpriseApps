@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "SampleWebApplicationCore20240930101826",
+      "defaultValue": "app-samplewebapp-oyqorqpnsspf4",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }
