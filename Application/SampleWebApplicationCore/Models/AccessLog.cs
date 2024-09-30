@@ -6,7 +6,7 @@ namespace SampleWebApplicationCore.Models
     {
         [Key]
         public int VisitId { get; set; }
-        public String PageName { get; set; }
-        public String AccessDate { get; set; }
+        public string PageName { get; set; } = string.Empty;
+        public string AccessDate { get; set; } = string.Empty;
     }
 }

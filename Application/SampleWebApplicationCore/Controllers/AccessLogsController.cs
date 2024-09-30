@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApplicationCore.Data;
 using SampleWebApplicationCore.Models;
@@ -22,6 +17,26 @@ namespace SampleWebApplicationCore.Controllers
         // GET: AccessLogs
         public async Task<IActionResult> Index()
         {
+            ViewBag.Message = "Access Logs page.";
+
+            try
+            {
+                // Insert AccessLog record
+                // using database context
+                var accessLog = new AccessLog
+                {
+                    PageName = "AccessLogs",
+                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                };
+
+                _context.AccessLog.Add(accessLog);
+                _context.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
             return View(await _context.AccessLog.ToListAsync());
         }
 
