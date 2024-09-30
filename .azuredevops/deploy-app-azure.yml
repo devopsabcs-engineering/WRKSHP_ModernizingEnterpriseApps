@@ -84,6 +84,7 @@ stages:
                     targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
                 - task: AzureCLI@2
                   displayName: "get app service name"
+                  name: getWebAppNameDev
                   inputs:
                     scriptType: "pscore"
                     scriptLocation: "inlineScript"
@@ -95,6 +96,10 @@ stages:
                         --query properties.outputs.webAppName.value -o tsv
                       Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
+                - powershell: |
+                    Write-Host $(webAppName)
+                - powershell: |
+                    Write-Host $(getWebAppNameDev.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
@@ -120,6 +125,7 @@ stages:
               steps:
                 - task: AzureCLI@2
                   displayName: "get app service name"
+                  name: getWebAppNameStaging
                   inputs:
                     scriptType: "pscore"
                     scriptLocation: "inlineScript"
@@ -131,6 +137,10 @@ stages:
                         --query properties.outputs.webAppName.value -o tsv
                       Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
+                - powershell: |
+                    Write-Host $(webAppName)
+                - powershell: |
+                    Write-Host $(getWebAppNameStaging.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
@@ -156,6 +166,7 @@ stages:
               steps:
                 - task: AzureCLI@2
                   displayName: "get app service name"
+                  name: getWebAppNameProd
                   inputs:
                     scriptType: "pscore"
                     scriptLocation: "inlineScript"
@@ -167,6 +178,10 @@ stages:
                         --query properties.outputs.webAppName.value -o tsv
                       Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
+                - powershell: |
+                    Write-Host $(webAppName)
+                - powershell: |
+                    Write-Host $(getWebAppNameProd.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
