@@ -43,7 +43,7 @@ stages:
                       # Deploy the Bicep template
                       # list contents of Bicep file
                       cat $(templateFilePath)
-                      az deployment group create --resource-group $(rgName) `
-                        --name $(deploymentName) `
-                        --template-file $(templateFilePath) `
+                      az deployment group create --resource-group $(rgName) \
+                        --name $(deploymentName) \
+                        --template-file $(templateFilePath) \
                         --parameters sqlAdminPassword=$(sqlAdminPassword)
