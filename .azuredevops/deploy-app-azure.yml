@@ -80,6 +80,15 @@ stages:
                     buildType: "current"
                     artifactName: "myWebsite"
                     targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
+                - task: AzureCLI@2
+                  displayName: "get app service name"
+                  inputs:
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo hello
+                      
+                      echo world
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
