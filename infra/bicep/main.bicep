@@ -20,7 +20,8 @@ param sqlServerName string = 'sql-samplewebapp-${uniqueString(resourceGroup().id
 param sqlAdminLogin string = 'sqladmin'
 
 @description('Password for the SQL server admin login.')
-param sqlAdminPassword string = 'P@ssw0rd1'
+@secure()
+param sqlAdminPassword string
 //Server=tcp:sql-samplewebapp-oyqorqpnsspf4.database.windows.net,1433;Database=SampleWebApplicationCore_db;Persist Security Info=False;User ID=sqladmin;Password=P@ssw0rd1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
 var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
 
