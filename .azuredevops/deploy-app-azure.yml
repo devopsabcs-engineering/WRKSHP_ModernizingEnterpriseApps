@@ -92,5 +92,3 @@ stages:
                     packageForLinux: '$(System.DefaultWorkingDirectory)/myWebsite'
                     RuntimeStack: 'DOTNETCORE|8.0'
                     StartupCommand: 'dotnet SampleWebApplicationCore.dll'
-                    ScriptType: 'Inline Script'
-                    InlineScript: 'dotnet restore'
