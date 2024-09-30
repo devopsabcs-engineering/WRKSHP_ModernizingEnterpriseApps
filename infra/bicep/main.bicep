@@ -41,23 +41,66 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   identity: {
     type: 'SystemAssigned'
   }
-}
 
-// resource appsettings 'Microsoft.Web/sites/config@2023-12-01' = {
-//   parent: webApp
-//   name: 'appsettings'
-//   properties: {
-//     ConnectionStrings__SampleWebApplicationCoreContext: connectionString
-//   }
-// }
+  resource connectionstrings 'config@2023-12-01' = {
+    name: 'connectionstrings'
+    properties: {
+      SampleWebApplicationCoreContext: {
+        value: connectionString
+        type: 'SQLAzure'
+      }
+    }
+  }
 
-resource connectionstrings 'Microsoft.Web/sites/config@2023-12-01' = {
-  name: 'connectionstrings'
-  parent: webApp
-  properties: {
-    SampleWebApplicationCoreContext: {
-      value: connectionString
-      type: 'SQLAzure'
+  // add deployment slot for dev
+  resource webAppSlotDev 'slots@2023-12-01' = {
+    location: location
+    name: 'dev'
+    properties: {
+      httpsOnly: true
+      reserved: true
+      serverFarmId: appServicePlan.id
+      siteConfig: {
+        alwaysOn: true
+        linuxFxVersion: 'DOTNETCORE|8.0'
+      }
+    }
+
+    // add connection string for dev
+    resource connectionstrings_dev 'config@2023-12-01' = {
+      name: 'connectionstrings'
+      properties: {
+        SampleWebApplicationCoreContext: {
+          value: connectionString
+          type: 'SQLAzure'
+        }
+      }
+    }
+  }
+
+  // add deployment slot for staging
+  resource webAppSlotStaging 'slots@2023-12-01' = {
+    location: location
+    name: 'staging'
+    properties: {
+      httpsOnly: true
+      reserved: true
+      serverFarmId: appServicePlan.id
+      siteConfig: {
+        alwaysOn: true
+        linuxFxVersion: 'DOTNETCORE|8.0'
+      }
+    }
+
+    // add connection string for staging
+    resource connectionstrings_staging 'config@2023-12-01' = {
+      name: 'connectionstrings'
+      properties: {
+        SampleWebApplicationCoreContext: {
+          value: connectionString
+          type: 'SQLAzure'
+        }
+      }
     }
   }
 }
@@ -75,38 +118,6 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   }
 }
 
-// add deployment slot for dev
-resource webAppSlotDev 'Microsoft.Web/sites/slots@2023-12-01' = {
-  parent: webApp
-  location: location
-  name: 'dev'
-  properties: {
-    httpsOnly: true
-    reserved: true
-    serverFarmId: appServicePlan.id
-    siteConfig: {
-      alwaysOn: true
-      linuxFxVersion: 'DOTNETCORE|8.0'
-    }
-  }
-}
-
-// add deployment slot for staging
-resource webAppSlotStaging 'Microsoft.Web/sites/slots@2023-12-01' = {
-  parent: webApp
-  location: location
-  name: 'staging'
-  properties: {
-    httpsOnly: true
-    reserved: true
-    serverFarmId: appServicePlan.id
-    siteConfig: {
-      alwaysOn: true
-      linuxFxVersion: 'DOTNETCORE|8.0'
-    }
-  }
-}
-
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   location: location
   name: sqlServerName
@@ -115,32 +126,28 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     administratorLoginPassword: sqlAdminPassword
     version: '12.0'
   }
-}
 
-var sqlServer_FirewallRuleName = 'AllowAllWindowsAzureIps'
-
-resource sqlServer_FirewallRule 'Microsoft.Sql/servers/firewallRules@2023-08-01-preview' = {
-  parent: sqlServer
-  name: sqlServer_FirewallRuleName
-  properties: {
-    startIpAddress: '0.0.0.0'
-    endIpAddress: '0.0.0.0'
+  resource sqlServer_FirewallRule 'firewallRules@2023-08-01-preview' = {
+    name: 'AllowAllWindowsAzureIps'
+    properties: {
+      startIpAddress: '0.0.0.0'
+      endIpAddress: '0.0.0.0'
+    }
   }
-}
 
-resource database 'Microsoft.Sql/servers/databases@2023-08-01-preview' = {
-  parent: sqlServer
-  sku: {
-    name: 'Standard'
-    tier: 'Standard'
-    capacity: 10
+  resource database 'databases@2023-08-01-preview' = {
+    sku: {
+      name: 'Standard'
+      tier: 'Standard'
+      capacity: 10
+    }
+    location: location
+    name: databaseName
   }
-  location: location
-  name: databaseName
 }
 
 output webAppId string = webApp.id
 output appServicePlanId string = appServicePlan.id
 output sqlServerId string = sqlServer.id
-output databaseId string = database.id
-output sqlServer_FirewallRuleId string = sqlServer_FirewallRule.id
+output databaseId string = sqlServer::database.id
+output sqlServer_FirewallRuleId string = sqlServer::sqlServer_FirewallRule.id
