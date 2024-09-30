@@ -4,16 +4,42 @@
 # https://aka.ms/yaml
 
 trigger:
-- none
+  - none
 
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  - group: WRKSHP_bch-modernize-apps
+  - name: azureSubscription
+    value: "your-azure-subscription"
+  - name: rgName
+    value: "rg-bch-modernize-apps"
+  - name: location
+    value: "canadacentral"
+  - name: deploymentName
+    value: "bch-modernize-apps-deployment"
+  - name: templateFilePath
+    value: "$(System.DefaultWorkingDirectory)/infra/bicep/main.bicep"
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: deployInfra
+    jobs:
+      - deployment: deployInfra
+        environment: "WRKSHP_deployInfra"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: "$(azureSubscription)"
+                    scriptType: "bash"
+                    scriptLocation: "inlineScript"
+                    inlineScript: |
+                      az group create --name $(rgName) --location $(location)
+                      az deployment group create --resource-group $(rgName) `
+                        --name $(deploymentName) `
+                        --template-file $(templateFilePath) `
+                        --parameters sqlAdminPassword=$(sqlAdminPassword)

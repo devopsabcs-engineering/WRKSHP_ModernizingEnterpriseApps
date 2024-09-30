@@ -75,6 +75,38 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   }
 }
 
+// add deployment slot for dev
+resource webAppSlotDev 'Microsoft.Web/sites/slots@2023-12-01' = {
+  parent: webApp
+  location: location
+  name: 'dev'
+  properties: {
+    httpsOnly: true
+    reserved: true
+    serverFarmId: appServicePlan.id
+    siteConfig: {
+      alwaysOn: true
+      linuxFxVersion: 'DOTNETCORE|8.0'
+    }
+  }
+}
+
+// add deployment slot for staging
+resource webAppSlotStaging 'Microsoft.Web/sites/slots@2023-12-01' = {
+  parent: webApp
+  location: location
+  name: 'staging'
+  properties: {
+    httpsOnly: true
+    reserved: true
+    serverFarmId: appServicePlan.id
+    siteConfig: {
+      alwaysOn: true
+      linuxFxVersion: 'DOTNETCORE|8.0'
+    }
+  }
+}
+
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   location: location
   name: sqlServerName
