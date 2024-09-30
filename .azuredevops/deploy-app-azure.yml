@@ -79,7 +79,7 @@ stages:
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
-                    azureSubscription: "Azure service connection"
+                    azureSubscription: "$(azureSubscription)"
                     appType: "webApp"
                     WebAppName: "myWebsite"
                     packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
