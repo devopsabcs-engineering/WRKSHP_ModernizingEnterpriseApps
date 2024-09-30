@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SampleWebApplicationCore.Data;
 namespace SampleWebApplicationCore
 {
     public class Program
@@ -5,6 +8,8 @@ namespace SampleWebApplicationCore
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<SampleWebApplicationCoreContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SampleWebApplicationCoreContext") ?? throw new InvalidOperationException("Connection string 'SampleWebApplicationCoreContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
