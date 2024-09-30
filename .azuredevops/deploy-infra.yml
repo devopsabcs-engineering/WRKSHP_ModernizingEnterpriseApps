@@ -12,7 +12,7 @@ pool:
 variables:
   - group: WRKSHP_bch-modernize-apps
   - name: azureSubscription
-    value: "your-azure-subscription"
+    value: "WRKSHP_csa_sub_v2"
   - name: rgName
     value: "rg-bch-modernize-apps"
   - name: location
