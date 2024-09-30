@@ -85,8 +85,8 @@ stages:
                 - task: AzureCLI@2
                   displayName: "get app service name"
                   inputs:
-                    scriptType: 'pscore'
-                    scriptLocation: 'inlineScript'
+                    scriptType: "pscore"
+                    scriptLocation: "inlineScript"
                     azureSubscription: $(azureSubscription)
                     inlineScript: |
                       echo "get app service name from deploymentName"
