@@ -33,12 +33,16 @@ stages:
               steps:
                 - checkout: self
                 - task: AzureCLI@2
+                  displayName: "Deploy Azure Resources"
                   inputs:
                     azureSubscription: "$(azureSubscription)"
                     scriptType: "bash"
                     scriptLocation: "inlineScript"
                     inlineScript: |
                       az group create --name $(rgName) --location $(location)
+                      # Deploy the Bicep template
+                      # list contents of Bicep file
+                      cat $(templateFilePath)
                       az deployment group create --resource-group $(rgName) `
                         --name $(deploymentName) `
                         --template-file $(templateFilePath) `
