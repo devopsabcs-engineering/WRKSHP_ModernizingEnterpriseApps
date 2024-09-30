@@ -93,6 +93,7 @@ stages:
                         --resource-group $(resourceGroupName) `
                         --query properties.outputs.webAppName.value -o tsv
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      echo "WebAppName: $webAppName"
                       echo "WebAppName: $(webAppName)"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
