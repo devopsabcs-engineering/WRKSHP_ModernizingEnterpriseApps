@@ -15,6 +15,8 @@ variables:
     value: app-samplewebapp-oyqorqpnsspf4
   - name: resourceGroupName
     value: rg-bch-modernize-apps
+  - name: deploymentName
+    value: bch-modernize-apps-deployment
 
 pool:
   vmImage: "ubuntu-latest"
@@ -83,12 +85,15 @@ stages:
                 - task: AzureCLI@2
                   displayName: "get app service name"
                   inputs:
-                    scriptType: 'pscore'
-                    scriptLocation: 'inlineScript'
+                    scriptType: "pscore"
+                    scriptLocation: "inlineScript"
                     inlineScript: |
-                      echo hello
-                      
-                      echo world
+                      echo "get app service name from deploymentName"
+                      $webAppName = az deployment group show --name $(deploymentName) `
+                        --resource-group $(resourceGroupName) `
+                        --query properties.outputs.webAppName.value -o tsv
+                      echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
+                      echo "WebAppName: $(webAppName)"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
