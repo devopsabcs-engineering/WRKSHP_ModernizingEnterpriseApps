@@ -7,10 +7,14 @@ trigger:
   - none
 
 variables:
-  buildConfiguration: "Release"
+  - name: buildConfiguration
+    value: "Release"
+  - name: azureSubscription
+    value: "WRKSHP_csa_sub_v2"
 
 pool:
   vmImage: "ubuntu-latest"
+
 stages:
   - stage: build
     displayName: "Build stage"
@@ -56,3 +60,30 @@ stages:
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)"
               artifactName: "myWebsite"
+  - stage: deployDev
+    displayName: "Deploy stage dev"
+    dependsOn: build
+    jobs:
+      - deployment: DeployDev
+        displayName: "Deploy Dev"
+        environment: "WRKSHP_myWebsite_dev"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    artifactName: "myWebsite"
+                    targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "Azure service connection"
+                    appType: "webApp"
+                    WebAppName: "myWebsite"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
+                    RuntimeStack: "DOTNETCORE|8.0"
+                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
+                    ScriptType: "Inline Script"
+                    InlineScript: "dotnet restore"
