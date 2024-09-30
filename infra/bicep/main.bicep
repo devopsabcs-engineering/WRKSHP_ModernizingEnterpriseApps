@@ -146,7 +146,7 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   }
 }
 
-output webAppId string = webApp.id
+output webAppName string = webApp.name
 output appServicePlanId string = appServicePlan.id
 output sqlServerId string = sqlServer.id
 output databaseId string = sqlServer::database.id
