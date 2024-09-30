@@ -82,13 +82,13 @@ stages:
                     targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
-                    ConnectionType: 'AzureRM'
-                    azureSubscription: '$(azureSubscription)'
-                    appType: 'webAppLinux'
-                    WebAppName: '$(webAppName)'
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "$(azureSubscription)"
+                    appType: "webAppLinux"
+                    WebAppName: "$(webAppName)"
                     deployToSlotOrASE: true
-                    ResourceGroupName: '$(resourceGroupName)'
-                    SlotName: 'dev'
-                    packageForLinux: '$(System.DefaultWorkingDirectory)/myWebsite'
-                    RuntimeStack: 'DOTNETCORE|8.0'
-                    StartupCommand: 'dotnet SampleWebApplicationCore.dll'
+                    ResourceGroupName: "$(resourceGroupName)"
+                    SlotName: "dev"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
+                    RuntimeStack: "DOTNETCORE|8.0"
+                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
