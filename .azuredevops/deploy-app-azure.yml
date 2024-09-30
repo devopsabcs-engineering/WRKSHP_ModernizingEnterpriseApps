@@ -11,6 +11,10 @@ variables:
     value: "Release"
   - name: azureSubscription
     value: "WRKSHP_csa_sub_v2"
+  - name: webAppName
+    value: app-samplewebapp-oyqorqpnsspf4
+  - name: resourceGroupName
+    value: rg-bch-modernize-apps
 
 pool:
   vmImage: "ubuntu-latest"
@@ -78,12 +82,15 @@ stages:
                     targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
                 - task: AzureRmWebAppDeployment@4
                   inputs:
-                    ConnectionType: "AzureRM"
-                    azureSubscription: "$(azureSubscription)"
-                    appType: "webApp"
-                    WebAppName: "myWebsite"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
-                    RuntimeStack: "DOTNETCORE|8.0"
-                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
-                    ScriptType: "Inline Script"
-                    InlineScript: "dotnet restore"
+                    ConnectionType: 'AzureRM'
+                    azureSubscription: '$(azureSubscription)'
+                    appType: 'webAppLinux'
+                    WebAppName: '$(webAppName)'
+                    deployToSlotOrASE: true
+                    ResourceGroupName: '$(resourceGroupName)'
+                    SlotName: 'dev'
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/myWebsite'
+                    RuntimeStack: 'DOTNETCORE|8.0'
+                    StartupCommand: 'dotnet SampleWebApplicationCore.dll'
+                    ScriptType: 'Inline Script'
+                    InlineScript: 'dotnet restore'
