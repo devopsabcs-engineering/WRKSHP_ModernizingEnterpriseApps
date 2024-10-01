@@ -28,7 +28,8 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "Home",
-                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    ComputerName = Environment.MachineName
                 };
 
                 _context.AccessLog.Add(accessLog);
@@ -61,7 +62,8 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "Privacy",
-                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    ComputerName = Environment.MachineName
                 };
 
                 _context.AccessLog.Add(accessLog);
@@ -88,7 +90,8 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "Error",
-                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    ComputerName = Environment.MachineName
                 };
 
                 _context.AccessLog.Add(accessLog);

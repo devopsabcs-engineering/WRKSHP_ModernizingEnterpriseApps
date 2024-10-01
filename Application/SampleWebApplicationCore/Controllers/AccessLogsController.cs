@@ -26,7 +26,8 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "AccessLogs",
-                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    ComputerName = Environment.MachineName
                 };
 
                 _context.AccessLog.Add(accessLog);
@@ -69,7 +70,7 @@ namespace SampleWebApplicationCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VisitId,PageName,AccessDate")] AccessLog accessLog)
+        public async Task<IActionResult> Create([Bind("VisitId,PageName,AccessDate,ComputerName")] AccessLog accessLog)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +102,7 @@ namespace SampleWebApplicationCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VisitId,PageName,AccessDate")] AccessLog accessLog)
+        public async Task<IActionResult> Edit(int id, [Bind("VisitId,PageName,AccessDate,ComputerName")] AccessLog accessLog)
         {
             if (id != accessLog.VisitId)
             {
@@ -147,6 +148,19 @@ namespace SampleWebApplicationCore.Controllers
             }
 
             return View(accessLog);
+        }
+
+        // GET: AccessLogs/DeleteAll
+        public async Task<IActionResult> DeleteAll()
+        {
+            var accessLogs = await _context.AccessLog.ToListAsync();
+            if (accessLogs != null)
+            {
+                _context.AccessLog.RemoveRange(accessLogs);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: AccessLogs/Delete/5

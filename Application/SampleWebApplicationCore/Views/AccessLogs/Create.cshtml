@@ -23,6 +23,12 @@
                 <input asp-for="AccessDate" class="form-control" />
                 <span asp-validation-for="AccessDate" class="text-danger"></span>
             </div>
+            <!-- Add a new field for the computer name -->
+            <div class="form-group">
+                <label asp-for="ComputerName" class="control-label"></label>
+                <input asp-for="ComputerName" class="form-control" />
+                <span asp-validation-for="ComputerName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
