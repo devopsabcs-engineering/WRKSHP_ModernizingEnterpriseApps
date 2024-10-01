@@ -91,9 +91,8 @@ stages:
                     azureSubscription: $(azureSubscription)
                     inlineScript: |
                       echo "get app service name from deploymentName"
-                      $webAppName = az deployment group show --name $(deploymentName) \
-                        --resource-group $(resourceGroupName) \
-                        --query properties.outputs.webAppName.value -o tsv
+                      webAppName=$(az deployment group show --name $(deploymentName) --resource-group $(resourceGroupName) --query properties.outputs.webAppName.value -o tsv)
+                      echo "WebAppName: $webAppName"
                       #Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
@@ -133,9 +132,8 @@ stages:
                     azureSubscription: $(azureSubscription)
                     inlineScript: |
                       echo "get app service name from deploymentName"
-                      $webAppName = az deployment group show --name $(deploymentName) \
-                        --resource-group $(resourceGroupName) \
-                        --query properties.outputs.webAppName.value -o tsv
+                      webAppName=$(az deployment group show --name $(deploymentName) --resource-group $(resourceGroupName) --query properties.outputs.webAppName.value -o tsv)
+                      echo "WebAppName: $webAppName"
                       #Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
@@ -175,9 +173,8 @@ stages:
                     azureSubscription: $(azureSubscription)
                     inlineScript: |
                       echo "get app service name from deploymentName"
-                      $webAppName = az deployment group show --name $(deploymentName) \
-                        --resource-group $(resourceGroupName) \
-                        --query properties.outputs.webAppName.value -o tsv
+                      webAppName=$(az deployment group show --name $(deploymentName) --resource-group $(resourceGroupName) --query properties.outputs.webAppName.value -o tsv)
+                      echo "WebAppName: $webAppName"
                       #Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
