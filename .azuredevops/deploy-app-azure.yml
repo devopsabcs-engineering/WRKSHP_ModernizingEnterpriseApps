@@ -125,7 +125,7 @@ stages:
                   displayName: "get app service name"
                   name: getWebAppNameStaging
                   inputs:
-                    scriptType: "pscore"
+                    scriptType: "bash"
                     scriptLocation: "inlineScript"
                     azureSubscription: $(azureSubscription)
                     inlineScript: |
@@ -164,7 +164,7 @@ stages:
                   displayName: "get app service name"
                   name: getWebAppNameProd
                   inputs:
-                    scriptType: "pscore"
+                    scriptType: "bash"
                     scriptLocation: "inlineScript"
                     azureSubscription: $(azureSubscription)
                     inlineScript: |
