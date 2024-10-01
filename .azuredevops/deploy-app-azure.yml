@@ -11,8 +11,6 @@ variables:
     value: "Release"
   - name: azureSubscription
     value: "WRKSHP_csa_sub_v2"
-  #- name: webAppName
-  #  value: app-samplewebapp-oyqorqpnsspf4
   - name: resourceGroupName
     value: rg-bch-modernize-apps
   - name: deploymentName
