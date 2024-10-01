@@ -21,6 +21,7 @@ namespace SampleWebApplicationCore.Controllers
         {
             ViewBag.Message = "Home page.";
 
+            _logger.LogInformation("Home page visited.");
             try
             {
                 // Insert AccessLog record
@@ -38,6 +39,7 @@ namespace SampleWebApplicationCore.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Error in Home page.");
                 Console.WriteLine(e.ToString());
             }
 
@@ -56,7 +58,7 @@ namespace SampleWebApplicationCore.Controllers
         public IActionResult Privacy()
         {
             ViewBag.Message = "Privacy page.";
-
+            _logger.LogInformation("Privacy page visited.");
             try
             {
                 // Insert AccessLog record
@@ -74,6 +76,7 @@ namespace SampleWebApplicationCore.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Error in Privacy page.");
                 Console.WriteLine(e.ToString());
             }
 
@@ -84,7 +87,7 @@ namespace SampleWebApplicationCore.Controllers
         public IActionResult Error()
         {
             ViewBag.Message = "Error page.";
-
+            _logger.LogError("Error page visited.");
             try
             {
                 // Insert AccessLog record
@@ -102,6 +105,7 @@ namespace SampleWebApplicationCore.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Error in Error page.");
                 Console.WriteLine(e.ToString());
             }
 

@@ -7,10 +7,13 @@ namespace SampleWebApplicationCore.Controllers
 {
     public class AccessLogsController : Controller
     {
+        private readonly ILogger<AccessLogsController> _logger;
         private readonly SampleWebApplicationCoreContext _context;
 
-        public AccessLogsController(SampleWebApplicationCoreContext context)
+        public AccessLogsController(SampleWebApplicationCoreContext context,
+            ILogger<AccessLogsController> logger)
         {
+            _logger = logger;
             _context = context;
         }
 
@@ -21,6 +24,8 @@ namespace SampleWebApplicationCore.Controllers
 
             try
             {
+                _logger.LogInformation("AccessLogs page visited.");
+
                 // Insert AccessLog record
                 // using database context
                 var accessLog = new AccessLog
@@ -36,6 +41,7 @@ namespace SampleWebApplicationCore.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Error in AccessLogs page.");
                 Console.WriteLine(e.ToString());
             }
             return View(await _context.AccessLog.ToListAsync());
