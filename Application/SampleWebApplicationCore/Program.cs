@@ -14,6 +14,13 @@ namespace SampleWebApplicationCore
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // application insights
+            builder.Services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+            });
+            builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["ApplicationInsights:InstrumentationKey"]);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
