@@ -107,7 +107,7 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "dev"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/*.zip"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/*.zip"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
   - stage: deployStaging
@@ -121,6 +121,11 @@ stages:
           runOnce:
             deploy:
               steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    artifactName: "myWebsite"
+                    targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
                 - task: AzureCLI@2
                   displayName: "get app service name"
                   name: getWebAppNameStaging
@@ -146,7 +151,7 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "staging"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/*.zip"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/*.zip"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
   - stage: deployProd
@@ -160,6 +165,11 @@ stages:
           runOnce:
             deploy:
               steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    artifactName: "myWebsite"
+                    targetPath: "$(System.DefaultWorkingDirectory)/myWebsite"
                 - task: AzureCLI@2
                   displayName: "get app service name"
                   name: getWebAppNameProd
@@ -178,10 +188,10 @@ stages:
                     echo $(getWebAppNameProd.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
-                    ConnectionType: 'AzureRM'
-                    azureSubscription: '$(azureSubscription)'
-                    appType: 'webAppLinux'
-                    WebAppName: '$(getWebAppNameProd.webAppName)'
-                    packageForLinux: '$(System.DefaultWorkingDirectory)/myWebsite/*.zip'
-                    RuntimeStack: 'DOTNETCORE|8.0'
-                    StartupCommand: 'dotnet SampleWebApplicationCore.dll'
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "$(azureSubscription)"
+                    appType: "webAppLinux"
+                    WebAppName: "$(getWebAppNameProd.webAppName)"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/*.zip"
+                    RuntimeStack: "DOTNETCORE|8.0"
+                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
