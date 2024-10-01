@@ -45,8 +45,10 @@ namespace SampleWebApplicationCore.Controllers
             var accessLogCount = _context.AccessLog.Count();
             var lastVisitLog = _context.AccessLog.OrderByDescending(a => a.VisitId).FirstOrDefault();
             var lastVisitAccessDate = lastVisitLog?.AccessDate;
+            var lastComputerName = lastVisitLog?.ComputerName;
             ViewBag.AccessLogCount = accessLogCount;
             ViewBag.LastVisit = lastVisitAccessDate;
+            ViewBag.LastComputerName = lastComputerName;
 
             return View();
         }

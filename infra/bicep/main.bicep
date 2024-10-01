@@ -22,6 +22,13 @@ param sqlAdminLogin string = 'sqladmin'
 @description('Password for the SQL server admin login.')
 @secure()
 param sqlAdminPassword string
+
+@description('log analytics workspace name')
+param logAnalyticsWorkspaceName string = 'log-samplewebapp-${uniqueString(resourceGroup().id)}'
+
+@description('application insights name')
+param appInsightsName string = 'appinsights-samplewebapp-${uniqueString(resourceGroup().id)}'
+
 //Server=tcp:sql-samplewebapp-oyqorqpnsspf4.database.windows.net,1433;Database=SampleWebApplicationCore_db;Persist Security Info=False;User ID=sqladmin;Password=******;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
 var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
 
@@ -36,6 +43,40 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
     siteConfig: {
       alwaysOn: true
       linuxFxVersion: 'DOTNETCORE|8.0'
+      appSettings: [
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: appInsights.properties.InstrumentationKey
+        }
+        {
+          name: 'Logging__LogLevel__Default'
+          value: 'Information'
+        }
+        {
+          name: 'Logging__LogLevel__Microsoft.AspNetCore'
+          value: 'Warning'
+        }
+        {
+          name: 'Logging__ApplicationInsights__LogLevel__Default'
+          value: 'Debug'
+        }
+        {
+          name: 'Logging__ApplicationInsights__LogLevel__Microsoft'
+          value: 'Error'
+        }
+        {
+          name: 'AllowedHosts'
+          value: '*'
+        }
+        {
+          name: 'ApplicationInsights__InstrumentationKey'
+          value: appInsights.properties.InstrumentationKey
+        }
+        {
+          name: 'ApplicationInsights__ConnectionString'
+          value: appInsights.properties.ConnectionString
+        }
+      ]
     }
   }
   identity: {
@@ -71,6 +112,40 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
       siteConfig: {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
+        appSettings: [
+          {
+            name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+            value: appInsightsDev.properties.InstrumentationKey
+          }
+          {
+            name: 'Logging__LogLevel__Default'
+            value: 'Information'
+          }
+          {
+            name: 'Logging__LogLevel__Microsoft.AspNetCore'
+            value: 'Warning'
+          }
+          {
+            name: 'Logging__ApplicationInsights__LogLevel__Default'
+            value: 'Debug'
+          }
+          {
+            name: 'Logging__ApplicationInsights__LogLevel__Microsoft'
+            value: 'Error'
+          }
+          {
+            name: 'AllowedHosts'
+            value: '*'
+          }
+          {
+            name: 'ApplicationInsights__InstrumentationKey'
+            value: appInsightsDev.properties.InstrumentationKey
+          }
+          {
+            name: 'ApplicationInsights__ConnectionString'
+            value: appInsightsDev.properties.ConnectionString
+          }
+        ]
       }
     }
 
@@ -105,6 +180,40 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
       siteConfig: {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
+        appSettings: [
+          {
+            name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+            value: appInsightsStaging.properties.InstrumentationKey
+          }
+          {
+            name: 'Logging__LogLevel__Default'
+            value: 'Information'
+          }
+          {
+            name: 'Logging__LogLevel__Microsoft.AspNetCore'
+            value: 'Warning'
+          }
+          {
+            name: 'Logging__ApplicationInsights__LogLevel__Default'
+            value: 'Debug'
+          }
+          {
+            name: 'Logging__ApplicationInsights__LogLevel__Microsoft'
+            value: 'Error'
+          }
+          {
+            name: 'AllowedHosts'
+            value: '*'
+          }
+          {
+            name: 'ApplicationInsights__InstrumentationKey'
+            value: appInsightsStaging.properties.InstrumentationKey
+          }
+          {
+            name: 'ApplicationInsights__ConnectionString'
+            value: appInsightsStaging.properties.ConnectionString
+          }
+        ]
       }
     }
 
@@ -170,8 +279,77 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   }
 }
 
+// create log analytics workspace
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+  location: location
+  name: logAnalyticsWorkspaceName
+  properties: {
+    retentionInDays: 30
+  }
+}
+
+// create log analytics workspace for dev slot
+resource logAnalyticsWorkspaceDev 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+  location: location
+  name: '${logAnalyticsWorkspaceName}-dev'
+  properties: {
+    retentionInDays: 30
+  }
+}
+
+// create log analytics workspace for staging slot
+resource logAnalyticsWorkspaceStaging 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+  location: location
+  name: '${logAnalyticsWorkspaceName}-staging'
+  properties: {
+    retentionInDays: 30
+  }
+}
+
+// create application insights by linking to log analytics workspace
+resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
+  location: location
+  name: appInsightsName
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    Flow_Type: 'Bluefield'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
+  }
+}
+
+// create application insights for dev slot
+resource appInsightsDev 'Microsoft.Insights/components@2020-02-02' = {
+  location: location
+  name: '${appInsightsName}-dev'
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    Flow_Type: 'Bluefield'
+    WorkspaceResourceId: logAnalyticsWorkspaceDev.id
+  }
+}
+
+// create application insights for staging slot
+resource appInsightsStaging 'Microsoft.Insights/components@2020-02-02' = {
+  location: location
+  name: '${appInsightsName}-staging'
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    Flow_Type: 'Bluefield'
+    WorkspaceResourceId: logAnalyticsWorkspaceStaging.id
+  }
+}
+
 output webAppName string = webApp.name
 output appServicePlanId string = appServicePlan.id
 output sqlServerId string = sqlServer.id
 output databaseId string = sqlServer::database.id
 output sqlServer_FirewallRuleId string = sqlServer::sqlServer_FirewallRule.id
+output logAnalyticsWorkspaceId string = logAnalyticsWorkspace.id
+output appInsightsId string = appInsights.id
+output logAnalyticsWorkspaceDevId string = logAnalyticsWorkspaceDev.id
+output appInsightsDevId string = appInsightsDev.id
+output logAnalyticsWorkspaceStagingId string = logAnalyticsWorkspaceStaging.id
+output appInsightsStagingId string = appInsightsStaging.id
