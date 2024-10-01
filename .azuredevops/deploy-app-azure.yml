@@ -107,7 +107,7 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "dev"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/*.zip"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
   - stage: deployStaging
@@ -146,7 +146,7 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "staging"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/*.zip"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
   - stage: deployProd
@@ -178,13 +178,10 @@ stages:
                     echo $(getWebAppNameProd.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
-                    ConnectionType: "AzureRM"
-                    azureSubscription: "$(azureSubscription)"
-                    appType: "webAppLinux"
-                    WebAppName: "$(getWebAppNameProd.webAppName)"
-                    deployToSlotOrASE: true
-                    ResourceGroupName: "$(resourceGroupName)"
-                    SlotName: "prod"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite"
-                    RuntimeStack: "DOTNETCORE|8.0"
-                    StartupCommand: "dotnet SampleWebApplicationCore.dll"
+                    ConnectionType: 'AzureRM'
+                    azureSubscription: '$(azureSubscription)'
+                    appType: 'webAppLinux'
+                    WebAppName: '$(getWebAppNameProd.webAppName)'
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/myWebsite/*.zip'
+                    RuntimeStack: 'DOTNETCORE|8.0'
+                    StartupCommand: 'dotnet SampleWebApplicationCore.dll'
