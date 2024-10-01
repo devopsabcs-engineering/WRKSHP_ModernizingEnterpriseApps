@@ -97,15 +97,13 @@ stages:
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
                 - bash: |
-                    echo $(webAppName)
-                - bash: |
                     echo $(getWebAppNameDev.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
                     azureSubscription: "$(azureSubscription)"
                     appType: "webAppLinux"
-                    WebAppName: "$(webAppName)"
+                    WebAppName: "$(getWebAppNameDev.webAppName)"
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "dev"
@@ -138,15 +136,13 @@ stages:
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
                 - bash: |
-                    echo $(webAppName)
-                - bash: |
                     echo $(getWebAppNameStaging.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
                     azureSubscription: "$(azureSubscription)"
                     appType: "webAppLinux"
-                    WebAppName: "$(webAppName)"
+                    WebAppName: "$(getWebAppNameStaging.webAppName)"
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "staging"
@@ -179,15 +175,13 @@ stages:
                       echo "##vso[task.setvariable variable=webAppName;isOutput=true]$webAppName"
                       echo "WebAppName: $webAppName"
                 - bash: |
-                    echo $(webAppName)
-                - bash: |
                     echo $(getWebAppNameProd.webAppName)
                 - task: AzureRmWebAppDeployment@4
                   inputs:
                     ConnectionType: "AzureRM"
                     azureSubscription: "$(azureSubscription)"
                     appType: "webAppLinux"
-                    WebAppName: "$(webAppName)"
+                    WebAppName: "$(getWebAppNameProd.webAppName)"
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "prod"
