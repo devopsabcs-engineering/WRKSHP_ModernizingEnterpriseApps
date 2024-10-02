@@ -37,7 +37,7 @@ param appInsightsName string = 'appinsights-samplewebapp-${uniqueString(resource
 // AZURE_SQL_CONNECTIONSTRING should be one of the following:
 // For system-assigned managed identity:"Server=tcp:<server-name>.database.windows.net;Database=<database-name>;Authentication=Active Directory Default;TrustServerCertificate=True"
 // For user-assigned managed identity: "Server=tcp:<server-name>.database.windows.net;Database=<database-name>;Authentication=Active Directory Default;User Id=<client-id-of-user-assigned-identity>;TrustServerCertificate=True"
-var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Authentication=Active Directory Default;Persist Security Info=False;User ID=${sid};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
+var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Authentication=Active Directory Default;TrustServerCertificate=True;'
 
 resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   location: location
