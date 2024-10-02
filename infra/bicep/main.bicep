@@ -16,12 +16,12 @@ param databaseName string = 'SampleWebApplicationCore_db'
 @description('Name of the SQL server to be created by this template.')
 param sqlServerName string = 'sql-samplewebapp-${uniqueString(resourceGroup().id)}'
 
-@description('Name of the SQL server admin login.')
-param sqlAdminLogin string = 'sqladmin'
+// @description('Name of the SQL server admin login.')
+// param sqlAdminLogin string = 'sqladmin'
 
-@description('Password for the SQL server admin login.')
-@secure()
-param sqlAdminPassword string
+// @description('Password for the SQL server admin login.')
+// @secure()
+// param sqlAdminPassword string
 
 @description('log analytics workspace name')
 param logAnalyticsWorkspaceName string = 'log-samplewebapp-${uniqueString(resourceGroup().id)}'
@@ -259,8 +259,8 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   location: location
   name: sqlServerName
   properties: {
-    administratorLogin: sqlAdminLogin
-    administratorLoginPassword: sqlAdminPassword
+    //administratorLogin: sqlAdminLogin
+    //administratorLoginPassword: sqlAdminPassword
     version: '12.0'
     administrators: {
       administratorType: 'ActiveDirectory'
@@ -380,3 +380,5 @@ output logAnalyticsWorkspaceDevId string = logAnalyticsWorkspaceDev.id
 output appInsightsDevId string = appInsightsDev.id
 output logAnalyticsWorkspaceStagingId string = logAnalyticsWorkspaceStaging.id
 output appInsightsStagingId string = appInsightsStaging.id
+// managed identity
+output webAppIdentityPrincipalId string = webApp.identity.principalId

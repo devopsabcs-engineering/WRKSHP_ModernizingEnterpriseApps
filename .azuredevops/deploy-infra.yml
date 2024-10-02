@@ -45,5 +45,5 @@ stages:
                       cat $(templateFilePath)
                       az deployment group create --resource-group $(rgName) \
                         --name $(deploymentName) \
-                        --template-file $(templateFilePath) \
-                        --parameters sqlAdminPassword=$(sqlAdminPassword)
+                        --template-file $(templateFilePath)
+                      #  --parameters sqlAdminPassword=$(sqlAdminPassword)
