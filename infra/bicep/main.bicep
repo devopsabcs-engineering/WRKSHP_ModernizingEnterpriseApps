@@ -155,6 +155,9 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         ]
       }
     }
+    identity: {
+      type: 'SystemAssigned'
+    }
 
     resource basicPublishingCredentialsPoliciesDev 'basicPublishingCredentialsPolicies@2023-12-01' = {
       name: 'scm'
@@ -223,6 +226,9 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         ]
       }
     }
+    identity: {
+      type: 'SystemAssigned'
+    }
 
     resource basicPublishingCredentialsPoliciesStaging 'basicPublishingCredentialsPolicies@2023-12-01' = {
       name: 'scm'
@@ -251,7 +257,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   kind: 'linux'
   sku: {
     name: 'S1'
-    tier: 'Standard'
+    tier: 'PremiumV3' // 'Standard'
   }
   properties: {
     reserved: true
@@ -387,3 +393,6 @@ output appInsightsStagingId string = appInsightsStaging.id
 // managed identity
 output sid string = sid // webApp.identity.principalId
 output login string = login // webApp.name
+output webAppSystemAssignedIdentityId string = webApp.identity.principalId
+output webAppSlotDevSystemAssignedIdentityId string = webApp::webAppSlotDev.identity.principalId
+output webAppSlotStagingSystemAssignedIdentityId string = webApp::webAppSlotStaging.identity.principalId
