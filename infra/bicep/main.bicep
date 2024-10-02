@@ -258,6 +258,13 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     administratorLogin: sqlAdminLogin
     administratorLoginPassword: sqlAdminPassword
     version: '12.0'
+    administrators: {
+      administratorType: 'ActiveDirectory'
+      login: webApp.name
+      sid: webApp.identity.principalId
+      tenantId: tenant().tenantId
+      azureADOnlyAuthentication: true
+    }
   }
 
   resource sqlServer_FirewallRule 'firewallRules@2023-08-01-preview' = {
@@ -277,6 +284,22 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     location: location
     name: databaseName
   }
+
+  // resource azureADOnlyAuthentications 'azureADOnlyAuthentications@2023-08-01-preview' = {
+  //   name: 'Default'
+  //   properties: {
+  //     azureADOnlyAuthentication: true
+  //   }
+  // }
+
+  // resource symbolicname 'administrators@2023-08-01-preview' = {
+  //   name: 'ActiveDirectory'
+  //   properties: {
+  //     administratorType: 'ActiveDirectory'
+  //     login: 'string'
+  //     sid: webApp.identity.principalId
+  //   }
+  // }
 }
 
 // create log analytics workspace
