@@ -30,7 +30,11 @@ param logAnalyticsWorkspaceName string = 'log-samplewebapp-${uniqueString(resour
 param appInsightsName string = 'appinsights-samplewebapp-${uniqueString(resourceGroup().id)}'
 
 //Server=tcp:sql-samplewebapp-oyqorqpnsspf4.database.windows.net,1433;Database=SampleWebApplicationCore_db;Persist Security Info=False;User ID=sqladmin;Password=******;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
-var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
+//var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
+// AZURE_SQL_CONNECTIONSTRING should be one of the following:
+// For system-assigned managed identity:"Server=tcp:<server-name>.database.windows.net;Database=<database-name>;Authentication=Active Directory Default;TrustServerCertificate=True"
+// For user-assigned managed identity: "Server=tcp:<server-name>.database.windows.net;Database=<database-name>;Authentication=Active Directory Default;User Id=<client-id-of-user-assigned-identity>;TrustServerCertificate=True"
+var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Authentication=Active Directory Default;Persist Security Info=False;User ID=${webApp.identity.principalId};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
 
 resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   location: location
