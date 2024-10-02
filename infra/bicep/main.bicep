@@ -264,7 +264,7 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     version: '12.0'
     administrators: {
       administratorType: 'ActiveDirectory'
-      login: 'app-samplewebapp-oyqorqpnsspf4' //webApp.name
+      login: webApp.name
       sid: '087827aa-5bd3-47fd-9199-7af45e67d414' //webApp.identity.principalId
       tenantId: tenant().tenantId
       azureADOnlyAuthentication: true
