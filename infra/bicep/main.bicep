@@ -23,6 +23,9 @@ param sqlServerName string = 'sql-samplewebapp-${uniqueString(resourceGroup().id
 // @secure()
 // param sqlAdminPassword string
 
+param login string = 'azureSqlDBAdmins'
+param sid string = '1a01e160-ef04-42e7-b0de-d2dedacab317'
+
 @description('log analytics workspace name')
 param logAnalyticsWorkspaceName string = 'log-samplewebapp-${uniqueString(resourceGroup().id)}'
 
@@ -254,7 +257,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
     reserved: true
   }
 }
-var sid = '087827aa-5bd3-47fd-9199-7af45e67d414' //webApp.identity.principalId
+
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   location: location
   name: sqlServerName
@@ -264,7 +267,8 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     version: '12.0'
     administrators: {
       administratorType: 'ActiveDirectory'
-      login: webApp.name
+      principalType: 'Group'
+      login: login
       sid: sid
       tenantId: tenant().tenantId
       azureADOnlyAuthentication: true
@@ -381,5 +385,5 @@ output appInsightsDevId string = appInsightsDev.id
 output logAnalyticsWorkspaceStagingId string = logAnalyticsWorkspaceStaging.id
 output appInsightsStagingId string = appInsightsStaging.id
 // managed identity
-output sid string = webApp.identity.principalId
-output login string = webApp.name
+output sid string = sid // webApp.identity.principalId
+output login string = login // webApp.name
