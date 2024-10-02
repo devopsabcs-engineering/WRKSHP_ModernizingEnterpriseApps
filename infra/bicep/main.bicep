@@ -256,7 +256,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
   kind: 'linux'
   sku: {
-    name: 'S1'
+    name: 'P1v3' //'S1'
     tier: 'PremiumV3' // 'Standard'
   }
   properties: {
