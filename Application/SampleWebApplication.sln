@@ -9,7 +9,9 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database1", "Database1\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication.Tests", "SampleWebApplication.Tests\SampleWebApplication.Tests.csproj", "{6C4D22AE-DFBE-4287-8B40-CD2D89EB5CE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplicationCore", "SampleWebApplicationCore\SampleWebApplicationCore.csproj", "{7A1094D3-5966-490D-8255-8A897477491D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplicationCore", "SampleWebApplicationCore\SampleWebApplicationCore.csproj", "{7A1094D3-5966-490D-8255-8A897477491D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomWeatherApi", "RandomWeatherApi\RandomWeatherApi.csproj", "{E3E2AD32-C748-46CB-B29D-ABB0AEBC066C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{7A1094D3-5966-490D-8255-8A897477491D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A1094D3-5966-490D-8255-8A897477491D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A1094D3-5966-490D-8255-8A897477491D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E2AD32-C748-46CB-B29D-ABB0AEBC066C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E2AD32-C748-46CB-B29D-ABB0AEBC066C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E2AD32-C748-46CB-B29D-ABB0AEBC066C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E2AD32-C748-46CB-B29D-ABB0AEBC066C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
