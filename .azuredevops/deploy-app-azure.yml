@@ -33,7 +33,7 @@ stages:
             enabled: true
             displayName: "Install GitTools"
             inputs:
-              versionSpec: "6.x"
+              versionSpec: "5.x"
           - task: gitversion/execute@3
             enabled: true
             displayName: "Calculate SemVer"
