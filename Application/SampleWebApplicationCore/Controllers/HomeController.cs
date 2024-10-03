@@ -52,6 +52,9 @@ namespace SampleWebApplicationCore.Controllers
             ViewBag.LastVisit = lastVisitAccessDate;
             ViewBag.LastComputerName = lastComputerName;
 
+            // add semantic version information from assembly
+            ViewBag.Version = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version";
+
             return View();
         }
 
