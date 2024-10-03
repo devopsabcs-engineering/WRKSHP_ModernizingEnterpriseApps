@@ -58,6 +58,18 @@ stages:
         dependsOn: Set_tag_for_version
         steps:
           - checkout: self
+            persistCredentials: true
+            fetchDepth: 0
+          - task: gitversion/setup@3
+            enabled: true
+            displayName: "Install GitTools"
+            inputs:
+              versionSpec: "5.x"
+          - task: gitversion/execute@3
+            enabled: true
+            displayName: "Calculate SemVer"
+          - script: echo current version is $(GitVersion.SemVer)
+            displayName: "Display calculated version"
           - task: UseDotNet@2
             displayName: "Install .NET Core SDK"
             inputs:
@@ -68,8 +80,8 @@ stages:
             inputs:
               command: "build"
               projects: "$(System.DefaultWorkingDirectory)/Application/SampleWebApplicationCore/SampleWebApplicationCore.csproj"
-              arguments: "--configuration $(buildConfiguration)"
-            displayName: "dotnet build $(buildConfiguration)"
+              arguments: "--configuration $(buildConfiguration) -p:Version=$(GitVersion.SemVer) -p:FileVersion=$(GitVersion.AssemblySemFileVer) -p:AssemblyVersion=$(GitVersion.AssemblySemVer)"
+            displayName: "dotnet build $(buildConfiguration) $(GitVersion.SemVer)"
           - task: DotNetCoreCLI@2
             inputs:
               command: test
@@ -85,10 +97,11 @@ stages:
               testRunner: VSTest
               testResultsFiles: "**/*.trx"
           - task: DotNetCoreCLI@2
+            displayName: "Publish $(buildConfiguration) $(GitVersion.SemVer)"
             inputs:
               command: publish
               publishWebProjects: True
-              arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+              arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) -p:Version=$(GitVersion.SemVer) -p:FileVersion=$(GitVersion.AssemblySemFileVer) -p:AssemblyVersion=$(GitVersion.AssemblySemVer)"
               zipAfterPublish: True
           # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
           - task: PublishPipelineArtifact@1
