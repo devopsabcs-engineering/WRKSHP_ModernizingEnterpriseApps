@@ -28,6 +28,7 @@ stages:
         steps:
           - checkout: self
             persistCredentials: true
+            fetchDepth: 0
           - task: gitversion/setup@3
             enabled: true
             displayName: "Install GitTools"
