@@ -63,7 +63,7 @@ jobs:
           push: true
           tags: ${{ vars.DOCKER_REGISTRY_SERVER_URL }}/${{ env.REPO }}:${{ github.sha }}
           #file: ${{ github.workspace }}/Application/RandomWeatherApi/Dockerfile
-          context: ${{ github.workspace }}/Application/RandomWeatherApi
+          context: ${{ github.workspace }}/Application
 
   deploy:
     permissions:
