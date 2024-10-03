@@ -10,5 +10,6 @@ namespace SampleWebApplicationCore.Models
         public string AccessDate { get; set; } = string.Empty;
         public string ComputerName { get; set; } = string.Empty;
         public string VersionNumber { get; set; } = string.Empty;
+        public string EnvironmentName { get; set; } = string.Empty;
     }
 }

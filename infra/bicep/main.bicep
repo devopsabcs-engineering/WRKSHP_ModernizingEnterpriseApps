@@ -51,6 +51,11 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
       alwaysOn: true
       linuxFxVersion: 'DOTNETCORE|8.0'
       appSettings: [
+        //set dotnetcore environment
+        {
+          name: 'ASPNETCORE_ENVIRONMENT'
+          value: 'Production'
+        }
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: appInsights.properties.InstrumentationKey
@@ -120,6 +125,11 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
         appSettings: [
+          //set dotnetcore environment
+          {
+            name: 'ASPNETCORE_ENVIRONMENT'
+            value: 'Development'
+          }
           {
             name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
             value: appInsightsDev.properties.InstrumentationKey
@@ -191,6 +201,11 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
         appSettings: [
+          //set dotnetcore environment to staging
+          {
+            name: 'ASPNETCORE_ENVIRONMENT'
+            value: 'Staging'
+          }
           {
             name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
             value: appInsightsStaging.properties.InstrumentationKey

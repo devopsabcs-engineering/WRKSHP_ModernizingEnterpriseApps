@@ -31,7 +31,8 @@ namespace SampleWebApplicationCore.Controllers
                     PageName = "Home",
                     VersionNumber = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    ComputerName = Environment.MachineName
+                    ComputerName = Environment.MachineName,
+                    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown environment"
                 };
 
                 _context.AccessLog.Add(accessLog);
@@ -55,6 +56,7 @@ namespace SampleWebApplicationCore.Controllers
 
             // add semantic version information from assembly
             ViewBag.Version = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version";
+            ViewBag.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown environment";
 
             return View();
         }
@@ -72,7 +74,8 @@ namespace SampleWebApplicationCore.Controllers
                     PageName = "Privacy",
                     VersionNumber = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    ComputerName = Environment.MachineName
+                    ComputerName = Environment.MachineName,
+                    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown environment"
                 };
 
                 _context.AccessLog.Add(accessLog);
@@ -102,7 +105,8 @@ namespace SampleWebApplicationCore.Controllers
                     PageName = "Error",
                     VersionNumber = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    ComputerName = Environment.MachineName
+                    ComputerName = Environment.MachineName,
+                    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown environment"
                 };
 
                 _context.AccessLog.Add(accessLog);

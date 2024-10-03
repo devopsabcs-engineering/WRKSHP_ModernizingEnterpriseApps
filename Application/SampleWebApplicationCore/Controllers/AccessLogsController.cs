@@ -33,7 +33,8 @@ namespace SampleWebApplicationCore.Controllers
                     PageName = "AccessLogs",
                     VersionNumber = typeof(AccessLogsController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    ComputerName = Environment.MachineName
+                    ComputerName = Environment.MachineName,
+                    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown environment"
                 };
 
                 _context.AccessLog.Add(accessLog);
