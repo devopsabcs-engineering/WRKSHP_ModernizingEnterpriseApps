@@ -35,6 +35,24 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
       linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${imageName}:latest'
       appSettings: [
         {
+          name: 'DOCKER_ENABLE_CI'
+          value: 'true'
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_URL'
+          value: 'https://${containerRegistry.name}.azurecr.io'
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_USERNAME'
+          value: containerRegistry.properties.adminUserEnabled ? containerRegistry.name : ''
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
+          value: containerRegistry.properties.adminUserEnabled
+            ? containerRegistry.listCredentials().passwords[0].value
+            : ''
+        }
+        {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: appInsights.properties.InstrumentationKey
         }
