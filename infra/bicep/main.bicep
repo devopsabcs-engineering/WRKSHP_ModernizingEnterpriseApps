@@ -23,8 +23,8 @@ param sqlServerName string = 'sql-samplewebapp-${uniqueString(resourceGroup().id
 // @secure()
 // param sqlAdminPassword string
 
-param login string = 'azureSqlDBAdmins'
-param sid string = '1a01e160-ef04-42e7-b0de-d2dedacab317'
+param login string = 'azureSqlDBAdmins' // change this to your Azure AD group name
+param sid string = '1a01e160-ef04-42e7-b0de-d2dedacab317' // change this to your Azure AD group object id
 
 @description('log analytics workspace name')
 param logAnalyticsWorkspaceName string = 'log-samplewebapp-${uniqueString(resourceGroup().id)}'
