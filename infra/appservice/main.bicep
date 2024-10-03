@@ -69,6 +69,14 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
       ]
     }
   }
+
+  resource basicPublishingCredentialsPolicies 'basicPublishingCredentialsPolicies@2023-12-01' = {
+    name: 'scm'
+    //kind: 'string'
+    properties: {
+      allow: true
+    }
+  }
 }
 
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
