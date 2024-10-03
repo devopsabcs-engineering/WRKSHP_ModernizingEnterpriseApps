@@ -29,6 +29,7 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "Home",
+                    VersionNumber = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     ComputerName = Environment.MachineName
                 };
@@ -69,6 +70,7 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "Privacy",
+                    VersionNumber = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     ComputerName = Environment.MachineName
                 };
@@ -98,6 +100,7 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "Error",
+                    VersionNumber = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     ComputerName = Environment.MachineName
                 };

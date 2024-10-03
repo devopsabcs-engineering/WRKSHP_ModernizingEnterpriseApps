@@ -31,6 +31,7 @@ namespace SampleWebApplicationCore.Controllers
                 var accessLog = new AccessLog
                 {
                     PageName = "AccessLogs",
+                    VersionNumber = typeof(AccessLogsController).Assembly.GetName().Version?.ToString() ?? "Unknown version",
                     AccessDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     ComputerName = Environment.MachineName
                 };

@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.PageName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.VersionNumber)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.AccessDate)
             </th>
             <th>
@@ -34,11 +37,14 @@
                 @Html.DisplayFor(modelItem => item.PageName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.VersionNumber)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.AccessDate)
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ComputerName)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComputerName)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VisitId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.VisitId">Details</a> |

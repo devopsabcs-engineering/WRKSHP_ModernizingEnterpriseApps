@@ -9,6 +9,6 @@ namespace SampleWebApplicationCore.Models
         public string PageName { get; set; } = string.Empty;
         public string AccessDate { get; set; } = string.Empty;
         public string ComputerName { get; set; } = string.Empty;
-
+        public string VersionNumber { get; set; } = string.Empty;
     }
 }
