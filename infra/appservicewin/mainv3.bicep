@@ -36,6 +36,8 @@ param sid string //= '1a01e160-ef04-42e7-b0de-d2dedacab317' // change this to yo
 var hostingPlanName = 'asp-samplewebapp-${uniqueString(resourceGroup().id)}'
 var websiteName = 'app-samplewebapp-${uniqueString(resourceGroup().id)}'
 var sqlserverName = 'sql-samplewebapp-${uniqueString(resourceGroup().id)}'
+var logAnalyticsWorkspaceName = 'log-samplewebapp-${uniqueString(resourceGroup().id)}'
+var appInsightsName = 'appi-samplewebapp-${uniqueString(resourceGroup().id)}'
 var databaseName = 'SampleWebApplicationCore_db'
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
@@ -57,30 +59,28 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
       azureADOnlyAuthentication: true
     }
   }
-}
 
-resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01-preview' = {
-  parent: sqlServer
-  name: databaseName
-  location: location
-  tags: {
-    displayName: 'Database'
+  resource sqlDatabase 'databases@2023-08-01-preview' = {
+    name: databaseName
+    location: location
+    tags: {
+      displayName: 'Database'
+    }
+    sku: {
+      name: 'Basic'
+    }
+    properties: {
+      collation: 'SQL_Latin1_General_CP1_CI_AS'
+      maxSizeBytes: 1073741824
+    }
   }
-  sku: {
-    name: 'Basic'
-  }
-  properties: {
-    collation: 'SQL_Latin1_General_CP1_CI_AS'
-    maxSizeBytes: 1073741824
-  }
-}
 
-resource allowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2023-08-01-preview' = {
-  parent: sqlServer
-  name: 'AllowAllWindowsAzureIps'
-  properties: {
-    endIpAddress: '0.0.0.0'
-    startIpAddress: '0.0.0.0'
+  resource allowAllWindowsAzureIps 'firewallRules@2023-08-01-preview' = {
+    name: 'AllowAllWindowsAzureIps'
+    properties: {
+      endIpAddress: '0.0.0.0'
+      startIpAddress: '0.0.0.0'
+    }
   }
 }
 
@@ -132,15 +132,35 @@ resource webSiteConnectionStrings 'Microsoft.Web/sites/config@2023-12-01' = {
   }
 }
 
-resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'AppInsights${website.name}'
+// create log analytics workspace
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   location: location
-  tags: {
-    'hidden-link:${website.id}': 'Resource'
-    displayName: 'AppInsightsComponent'
+  name: logAnalyticsWorkspaceName
+  properties: {
+    retentionInDays: 30
   }
+}
+
+// create application insights by linking to log analytics workspace
+resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
+  location: location
+  name: appInsightsName
   kind: 'web'
   properties: {
     Application_Type: 'web'
+    Flow_Type: 'Bluefield'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
   }
 }
+
+output webAppName string = website.name
+output appServicePlanId string = hostingPlan.id
+output sqlServerId string = sqlServer.id
+output databaseId string = sqlServer::sqlDatabase.id
+output sqlServer_FirewallRuleId string = sqlServer::allowAllWindowsAzureIps.id
+output logAnalyticsWorkspaceId string = logAnalyticsWorkspace.id
+output appInsightsId string = appInsights.id
+// managed identity
+output sid string = sid // webApp.identity.principalId
+output login string = login // webApp.name
+output webAppSystemAssignedIdentityId string = website.identity.principalId
