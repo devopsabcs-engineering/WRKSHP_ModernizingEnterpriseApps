@@ -81,7 +81,7 @@ stages:
           - task: DotNetCoreCLI@2
             inputs:
               command: "build"
-              projects: "$(System.DefaultWorkingDirectory)/Application/SampleWebApplicationCore/SampleWebApplicationCore.csproj"
+              projects: "$(System.DefaultWorkingDirectory)/src/SampleWebApplicationCore/SampleWebApplicationCore.csproj"
               arguments: "--configuration $(buildConfiguration) -p:Version=$(GitVersion.SemVer) -p:FileVersion=$(GitVersion.AssemblySemFileVer) -p:AssemblyVersion=$(GitVersion.AssemblySemVer)"
             displayName: "dotnet build $(buildConfiguration) $(GitVersion.SemVer)"
           - task: DotNetCoreCLI@2
@@ -104,7 +104,6 @@ stages:
               command: 'publish'
               publishWebProjects: true
               arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) -p:Version=$(GitVersion.SemVer) -p:FileVersion=$(GitVersion.AssemblySemFileVer) -p:AssemblyVersion=$(GitVersion.AssemblySemVer)'
-              #workingDirectory: '$(System.DefaultWorkingDirectory)/Application/SampleWebApplicationCore'
               zipAfterPublish: True
           # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
           - task: PublishPipelineArtifact@1
