@@ -15,6 +15,8 @@ variables:
     value: rg-bch-modernize-apps
   - name: deploymentName
     value: bch-modernize-apps-deployment
+  - name: WebsitePackage
+    value: SampleWebApplicationCore.zip
 
 pool:
   vmImage: "ubuntu-latest"
@@ -99,9 +101,10 @@ stages:
           - task: DotNetCoreCLI@2
             displayName: "Publish $(buildConfiguration) $(GitVersion.SemVer)"
             inputs:
-              command: publish
-              publishWebProjects: True
-              arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) -p:Version=$(GitVersion.SemVer) -p:FileVersion=$(GitVersion.AssemblySemFileVer) -p:AssemblyVersion=$(GitVersion.AssemblySemVer)"
+              command: 'publish'
+              publishWebProjects: true
+              arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) -p:Version=$(GitVersion.SemVer) -p:FileVersion=$(GitVersion.AssemblySemFileVer) -p:AssemblyVersion=$(GitVersion.AssemblySemVer)'
+              #workingDirectory: '$(System.DefaultWorkingDirectory)/Application/SampleWebApplicationCore'
               zipAfterPublish: True
           # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
           - task: PublishPipelineArtifact@1
@@ -149,7 +152,7 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "dev"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/*.zip"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/$(WebsitePackage)"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
   - stage: deployStaging
@@ -193,7 +196,7 @@ stages:
                     deployToSlotOrASE: true
                     ResourceGroupName: "$(resourceGroupName)"
                     SlotName: "staging"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/*.zip"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/$(WebsitePackage)"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"
   - stage: deployProd
@@ -234,6 +237,6 @@ stages:
                     azureSubscription: "$(azureSubscription)"
                     appType: "webAppLinux"
                     WebAppName: "$(getWebAppNameProd.webAppName)"
-                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/*.zip"
+                    packageForLinux: "$(System.DefaultWorkingDirectory)/myWebsite/**/$(WebsitePackage)"
                     RuntimeStack: "DOTNETCORE|8.0"
                     StartupCommand: "dotnet SampleWebApplicationCore.dll"

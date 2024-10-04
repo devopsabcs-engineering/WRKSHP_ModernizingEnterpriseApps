@@ -6,7 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationInsightsResourceId>/subscriptions/64c3d212-40ed-4c6d-a825-6adfbdf25dad/resourceGroups/rg-bch-modernize-apps/providers/microsoft.insights/components/appinsights-samplewebapp-oyqorqpnsspf4</ApplicationInsightsResourceId>
     <UserSecretsId>ebfd06dc-8ec3-4c36-ac22-5f59be48a320</UserSecretsId>
-  </PropertyGroup>
+  
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
@@ -16,6 +18,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RandomWeatherApi\RandomWeatherApi.csproj" />
   </ItemGroup>
 
 </Project>

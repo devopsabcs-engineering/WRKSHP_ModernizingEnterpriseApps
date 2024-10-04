@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using RandomWeatherApi;
 using SampleWebApplicationCore.Data;
 using SampleWebApplicationCore.Models;
+using SampleWebApplicationCore.Service;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace SampleWebApplicationCore.Controllers
 {
@@ -9,12 +12,15 @@ namespace SampleWebApplicationCore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SampleWebApplicationCoreContext _context;
+        private readonly IWeatherForecastService _weatherForecastService;
 
         public HomeController(SampleWebApplicationCoreContext context,
+            IWeatherForecastService weatherForecastService,
             ILogger<HomeController> logger)
         {
             _logger = logger;
             _context = context;
+            _weatherForecastService = weatherForecastService;
         }
 
         public IActionResult Index()
@@ -57,6 +63,10 @@ namespace SampleWebApplicationCore.Controllers
             // add semantic version information from assembly
             ViewBag.Version = typeof(HomeController).Assembly.GetName().Version?.ToString() ?? "Unknown version";
             ViewBag.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown environment";
+
+            // call weather forecast service
+            var weatherForecast = _weatherForecastService.GetWeatherForecast();
+            ViewBag.WeatherForecast = weatherForecast.First().ToString();
 
             return View();
         }

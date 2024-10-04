@@ -42,7 +42,7 @@ var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sql
 resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   location: location
   name: webAppName
-  kind: 'app'
+  kind: 'app,linux'
   properties: {
     httpsOnly: true
     reserved: true
@@ -51,6 +51,10 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
       alwaysOn: true
       linuxFxVersion: 'DOTNETCORE|8.0'
       appSettings: [
+        {
+          name: 'WeatherForecastApi__BaseUrl'
+          value: 'https://app-rndweather-api-pvzah3dzd4onc.azurewebsites.net'
+        }
         //set dotnetcore environment
         {
           name: 'ASPNETCORE_ENVIRONMENT'
@@ -117,6 +121,7 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   resource webAppSlotDev 'slots@2023-12-01' = {
     location: location
     name: 'dev'
+    kind: 'app,linux'
     properties: {
       httpsOnly: true
       reserved: true
@@ -125,6 +130,10 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
         appSettings: [
+          {
+            name: 'WeatherForecastApi__BaseUrl'
+            value: 'https://app-rndweather-api-pvzah3dzd4onc.azurewebsites.net'
+          }
           //set dotnetcore environment
           {
             name: 'ASPNETCORE_ENVIRONMENT'
@@ -193,6 +202,7 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   resource webAppSlotStaging 'slots@2023-12-01' = {
     location: location
     name: 'staging'
+    kind: 'app,linux'
     properties: {
       httpsOnly: true
       reserved: true
@@ -201,6 +211,10 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         alwaysOn: true
         linuxFxVersion: 'DOTNETCORE|8.0'
         appSettings: [
+          {
+            name: 'WeatherForecastApi__BaseUrl'
+            value: 'https://app-rndweather-api-pvzah3dzd4onc.azurewebsites.net'
+          }
           //set dotnetcore environment to staging
           {
             name: 'ASPNETCORE_ENVIRONMENT'

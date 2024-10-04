@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SampleWebApplicationCore.Data;
+using SampleWebApplicationCore.Service;
 namespace SampleWebApplicationCore
 {
     public class Program
@@ -20,6 +21,12 @@ namespace SampleWebApplicationCore
                 options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
             });
             builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["ApplicationInsights:InstrumentationKey"]);
+
+            // add IConfiguration
+            builder.Services.AddSingleton(builder.Configuration);
+
+            // add weather forecast service
+            builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 
             var app = builder.Build();
 
