@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationInsightsResourceId>/subscriptions/64c3d212-40ed-4c6d-a825-6adfbdf25dad/resourceGroups/rg-bch-modernize-apps/providers/microsoft.insights/components/appinsights-samplewebapp-oyqorqpnsspf4</ApplicationInsightsResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/64c3d212-40ed-4c6d-a825-6adfbdf25dad/resourceGroups/rg-bch-modernize-apps/providers/microsoft.insights/components/appi-samplewebapp-oyqorqpnsspf4</ApplicationInsightsResourceId>
     <UserSecretsId>ebfd06dc-8ec3-4c36-ac22-5f59be48a320</UserSecretsId>
   
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>

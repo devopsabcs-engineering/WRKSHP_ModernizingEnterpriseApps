@@ -30,7 +30,7 @@ param sid string = '1a01e160-ef04-42e7-b0de-d2dedacab317' // change this to your
 param logAnalyticsWorkspaceName string = 'log-samplewebapp-${uniqueString(resourceGroup().id)}'
 
 @description('application insights name')
-param appInsightsName string = 'appinsights-samplewebapp-${uniqueString(resourceGroup().id)}'
+param appInsightsName string = 'appi-samplewebapp-${uniqueString(resourceGroup().id)}'
 
 //Server=tcp:sql-samplewebapp-oyqorqpnsspf4.database.windows.net,1433;Database=SampleWebApplicationCore_db;Persist Security Info=False;User ID=sqladmin;Password=******;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
 //var connectionString = 'Server=tcp:${sqlServer.name}${environment().suffixes.sqlServerHostname},1433;Database=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
