@@ -4,6 +4,11 @@ on:
     branches:
     - main
   workflow_dispatch:
+
+# Permission can be added at job level or workflow level
+permissions:
+  contents: write   # This is required to create/push the new git tag
+
 env:
   AZURE_WEBAPP_NAME: app-samplewebapp-jadqsntvkhpqo
   AZURE_WEBAPP_PACKAGE_PATH: SampleWebApplicationCoreDemo\published
