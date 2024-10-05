@@ -23,6 +23,19 @@ jobs:
         versionSpec: '6.x'
     - name: Determine Version
       uses: gittools/actions/gitversion/execute@v3.0.0
+    - name: Display GitVersion outputs
+      run: |
+        echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+    - name: Create tag
+      uses: actions/github-script@v3
+      with:
+        script: |
+          github.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: "refs/tags/v${{ steps.gitversion.outputs.semVer }}",
+            sha: context.sha
+          })
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
