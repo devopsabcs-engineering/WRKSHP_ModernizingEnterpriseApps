@@ -1,5 +1,9 @@
 # Workshop for Modernizing Enterprise Apps with App Platforms
 
+Emmanuel Knafo
+Cloud Solution Architect
+Microsoft
+
 ## *Agenda*
 
 ### Day 1 
