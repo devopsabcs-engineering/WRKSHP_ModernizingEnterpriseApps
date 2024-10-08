@@ -16,7 +16,7 @@ Microsoft
 ### Day 2
 - Building and [Deploying Web Applications](https://learn.microsoft.com/en-us/training/paths/create-azure-app-service-web-apps)
 - Migrating on-premises to [Azure App Service](https://learn.microsoft.com/en-us/dotnet/azure/migration/app-service)
-- Implementing [DevOps practices in PaaS](https://learn.microsoft.com/en-us/training/browse/?terms=devops&roles=developer)
+- [DevOps foundations: The core principles and practices](https://learn.microsoft.com/en-us/training/paths/devops-foundations-core-principles-practices/)
 
 ### Day 3
 - Managing [Identities and Access in Azure](https://learn.microsoft.com/en-us/training/paths/az-204-implement-authentication-authorization)
