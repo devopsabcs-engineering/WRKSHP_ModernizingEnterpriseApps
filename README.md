@@ -15,7 +15,7 @@ Microsoft
 
 ### Day 2
 - Building and [Deploying Web Applications](https://learn.microsoft.com/en-us/training/paths/create-azure-app-service-web-apps)
-- Migrating on-premises to [Azure App Service](https://learn.microsoft.com/en-us/training/modules/move-web-application-to-app-services/)
+- Migrating on-premises to [Azure App Service](https://learn.microsoft.com/en-us/dotnet/azure/migration/app-service)
 - Implementing [DevOps practices in PaaS](https://learn.microsoft.com/en-us/training/browse/?terms=devops&roles=developer)
 
 ### Day 3
