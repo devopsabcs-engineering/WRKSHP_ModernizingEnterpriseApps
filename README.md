@@ -38,7 +38,7 @@ Microsoft
 | Identity                    | Managing identities and access in Azure       | [Implement user authentication and authorization](https://learn.microsoft.com/en-us/training/paths/az-204-implement-authentication-authorization/) |
 | Azure Search                | Adding search capabilities to applications   | [Implement advanced search features in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/implement-advanced-search-features-azure-cognitive-search/)    |
 | DevOps in PaaS              | DevOps tutorial—an introduction         | [Multiple](https://azure.microsoft.com/en-us/solutions/devops/tutorial/?msockid=132a5be410ee61c733334a6211d56068)  |
-| Web/Serverless              | Serverless computing and API management      | [Multiple](https://learn.microsoft.com/en-us/training/browse/?terms=serverless&roles=developer)             |
+| Web/Serverless              | Serverless computing and API management      | [Video](https://www.youtube.com/watch?v=4fPRxveXGXw&t=33s)            |
 | Monitoring                  | Monitoring and diagnostics tools in Azure     | [Configure monitoring for applications](https://learn.microsoft.com/en-us/training/modules/configure-monitoring-applications/),  [Implement observability in a cloud-native .NET 8 application with OpenTelemetry](https://learn.microsoft.com/en-us/training/modules/implement-observability-cloud-native-app-with-opentelemetry/)    |
 | High throughput             | Scalable messaging and data streaming         | [Architect message brokering and serverless applications in Azure](https://learn.microsoft.com/en-us/training/paths/architect-messaging-serverless/) |
 
